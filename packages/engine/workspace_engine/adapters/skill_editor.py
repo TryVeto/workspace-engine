@@ -44,6 +44,16 @@ class SkillEditor:
 
             columns={r[1] for r in c.execute("PRAGMA table_info(edits)")}
             if "object_id" not in columns:c.execute("ALTER TABLE edits ADD COLUMN object_id TEXT")
+            # Bind pre-identity journals while original source locations still exist.
+            for (old_path,) in c.execute("SELECT DISTINCT path FROM edits"):
+                original = Path(old_path)
+                for key, item in self.catalog.items.items():
+                    package = item["_path"].parent
+                    if original.is_relative_to(package):
+                        object_id = key + ":" + str(original.relative_to(package))
+                        c.execute("UPDATE edits SET object_id=? WHERE path=?", (object_id, old_path))
+                        break
+
 
     @contextmanager
     def connect(self):

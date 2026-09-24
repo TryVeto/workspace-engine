@@ -4,7 +4,7 @@ The automated suite exercises revision conflicts, identical retries, restart per
 
 The browser harness creates a fresh fabricated demo. It checks 16 surfaces, 18 desktop/mobile/dark views, number-key ownership, exact prompt copying, filtered shortcuts, typing isolation, a lost task-save response, offline workspace draft recovery, prompt creation and edit persistence, and warm navigation latency. It fails on page errors and document overflow.
 
-The current local verification passed 39 Python tests under normal and optimized Python and all browser checks. Warm navigation p95 was approximately 2 ms on the verification host; this is a local measurement, not a universal performance promise. The workflow and capability tests use fabricated adapters and make no external side effects.
+The current local verification passed 40 Python tests under normal and optimized Python and all browser checks. Warm navigation p95 was approximately 2 ms on the verification host; this is a local measurement, not a universal performance promise. The workflow and capability tests use fabricated adapters and make no external side effects.
 
 Not verified: real R2 round trips, mail/calendar/AI providers, Windows, Safari, multi-user hosting, or operation while a laptop is asleep. The macOS private instance uses a Keychain-backed scoped agent identity; this does not install an autonomous agent scheduler.
 

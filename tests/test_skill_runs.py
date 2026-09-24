@@ -63,6 +63,14 @@ class SkillRunTests(unittest.TestCase):
   editor.save({"id":"skl_test_review","file":"SKILL.md","text":doc["text"]+"\nMore detail.","sha256":doc["sha256"],"requestId":"save-one"})
   self.skill.rename(self.library/"renamed");self.catalog.refresh()
   self.assertEqual(editor.history("skl_test_review","SKILL.md")["versions"][0]["text"],doc["text"])
+ def test_old_journal_is_bound_before_renaming(self):
+  editor=SkillEditor(self.catalog,self.root/"state")
+  doc=editor.document("skl_test_review","SKILL.md")
+  editor.save({"id":"skl_test_review","file":"SKILL.md","text":doc["text"]+"\nA detail.","sha256":doc["sha256"],"requestId":"old-save"})
+  with editor.connect() as db:db.execute("UPDATE edits SET object_id=NULL")
+  editor=SkillEditor(self.catalog,self.root/"state")
+  self.skill.rename(self.library/"renamed");self.catalog.refresh()
+  self.assertEqual(editor.history("skl_test_review","SKILL.md")["versions"][0]["text"],doc["text"])
  def test_unidentified_skills_are_not_guessed(self):
   (self.skill/"workspace-skill.json").unlink();self.catalog.refresh()
   key=next(iter(self.catalog.items))
