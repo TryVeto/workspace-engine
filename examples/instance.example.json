@@ -1,0 +1,7 @@
+{
+  "name": "Workspace",
+  "owner": "Workspace owner",
+  "data_root": "~/Library/Application Support/Workspace/default",
+  "file_roots": [],
+  "agents": {}
+}

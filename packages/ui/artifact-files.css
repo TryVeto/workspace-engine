@@ -1,0 +1,36 @@
+.artifact-page{gap:0}.artifact-head{margin-bottom:12px}.artifact-head>div:first-child{min-width:0}
+.artifact-subtitle{margin:5px 0 0;color:var(--muted);font-size:12px}
+.artifact-storage{font-size:11px;color:var(--muted);padding:6px 9px;border:1px solid var(--line);border-radius:5px;white-space:nowrap}
+.artifact-storage.ready{color:var(--ink)}
+.artifact-tabs{margin-bottom:12px}
+.artifact-grid{display:grid;grid-template-columns:190px minmax(320px,1fr) minmax(330px,430px);flex:1;min-height:260px;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--bg)}
+.artifact-sources,.artifact-home,.artifact-right{min-width:0;overflow:auto}
+.artifact-sources{padding:18px 12px;border-right:1px solid var(--line);background:var(--side)}
+.artifact-home{padding:18px 0}.artifact-right{padding:18px;border-left:1px solid var(--line)}
+.artifact-pane-head{padding:0 14px 12px}.artifact-right .artifact-pane-head{padding-left:0}
+.artifact-pane-head h2{font-size:17px;letter-spacing:-.35px;margin:0}.artifact-pane-head p{font-size:11px;line-height:1.5;color:var(--muted);margin:5px 0 0}
+.artifact-sources>button{display:block;width:100%;text-align:left;border:0;background:transparent;padding:7px 9px;border-radius:5px;font-size:12px}
+.artifact-sources>button:hover,.artifact-sources>button.active{background:var(--hover)}
+.artifact-source-note{font-size:10px;line-height:1.55;color:var(--muted);padding:14px 9px;margin:8px 0 0;border-top:1px solid var(--line)}
+.artifact-tree{padding-bottom:16px}
+.artifact-folder,.artifact-row{width:100%;border:0;background:transparent;text-align:left;border-radius:0;display:flex;align-items:center}
+.artifact-folder{height:32px;padding:0 16px 0 calc(16px + var(--depth,0)*18px);font-size:12px;font-weight:600}
+.artifact-folder:hover,.artifact-row:hover,.artifact-row.selected{background:var(--hover)}
+.artifact-count{margin-left:auto;color:var(--muted);font-weight:400;font-size:10px}
+.artifact-row{height:31px;padding:0 16px 0 calc(32px + var(--depth,1)*18px);font-size:12px}
+.artifact-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.artifact-meta{margin-left:auto;color:var(--muted);font-size:10px}
+.artifact-empty-row{margin:0;padding:6px 18px 10px 50px;color:var(--muted);font-size:10px}
+.artifact-search{width:100%;font-size:12px;margin-bottom:10px}
+.artifact-intake{min-height:0}.artifact-intake-row{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.artifact-intake-row>div{min-width:0;flex:1}.artifact-intake-row strong,.artifact-intake-row small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.artifact-intake-row strong{font-size:11px}.artifact-intake-row small{font-size:9px;color:var(--muted);margin-top:3px}
+.artifact-intake-row button{font-size:10px;padding:5px 8px}
+.artifact-facts{display:grid;grid-template-columns:72px minmax(0,1fr);gap:7px 10px;margin:4px 0 18px;font-size:10px}
+.artifact-facts dt{color:var(--muted)}.artifact-facts dd{margin:0;overflow-wrap:anywhere}
+.artifact-back{margin-top:12px;font-size:11px}
+.artifact-foot{display:flex;justify-content:space-between;gap:20px;padding:9px 2px 0;color:var(--muted);font-size:10px}
+.artifact-foot span:last-child{text-align:right}
+@media(max-width:1100px){.artifact-grid{grid-template-columns:150px minmax(280px,1fr) 340px}.artifact-source-note{display:none}}
+@media(max-width:850px){.artifact-grid{grid-template-columns:150px 1fr}.artifact-right{grid-column:1/-1;border-left:0;border-top:1px solid var(--line);max-height:38vh}.artifact-home{border-right:0}}
+@media(max-width:620px){.artifact-head{align-items:flex-start;flex-direction:column}.artifact-storage{white-space:normal}.artifact-grid{display:flex;flex-direction:column}.artifact-sources{display:flex;gap:4px;overflow:auto;border-right:0;border-bottom:1px solid var(--line);padding:8px}.artifact-sources .artifact-pane-head{display:none}}
+@media(max-width:620px){.artifact-sources>button{width:auto;white-space:nowrap}.artifact-home{min-height:280px}.artifact-right{max-height:none}.artifact-foot{display:block}.artifact-foot span{display:block;margin-top:4px}.artifact-foot span:last-child{text-align:left}}

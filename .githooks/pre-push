@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+python3 tools/release_gate.py --history
+python3 -m unittest discover -s tests -q
+if ! test -f LICENSE; then
+  echo 'Publication blocked: choose a license before the first push.' >&2
+  exit 1
+fi

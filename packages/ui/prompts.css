@@ -1,0 +1,14 @@
+.prompt-meta{display:flex;flex-wrap:wrap;gap:3px;color:var(--muted);font-size:12px;margin:-17px 0 27px}
+#editor.prompt-editor{width:min(900px,calc(100vw - 32px));padding:26px 30px;max-height:90vh;border-radius:8px}
+.prompt-editor #editor-title{font-size:22px;letter-spacing:-.02em}
+.prompt-editor-help,.prompt-meter{font-size:12px;color:var(--muted);margin:0 0 12px}
+.prompt-editor #edit-form textarea{height:43vh;min-height:240px;line-height:1.7;font-size:16px;padding:16px;resize:vertical}
+.prompt-editor .prompt-meter{margin:9px 0 16px}
+.prompt-comparison{border-top:1px solid var(--line);padding:13px 0;font-size:13px}
+.prompt-comparison summary{cursor:pointer;list-style-position:inside}
+.prompt-comparison pre{font:14px/1.7 inherit;white-space:pre-wrap;overflow-wrap:anywhere;max-height:220px;overflow:auto;margin-bottom:0;padding:14px;background:var(--side)}
+.prompt-draft-actions{display:flex;gap:8px}.prompt-draft-actions button{font-size:12px}
+.prompt-editor #edit-error{color:var(--ink);border-left:2px solid currentColor;padding-left:12px}
+.prompt-editor #edit-error:empty{display:none}
+@media(max-width:650px){#editor.prompt-editor{padding:20px 18px}.prompt-editor #editor-title{font-size:19px}.prompt-editor #edit-form textarea{height:40vh;font-size:16px}.prompt-meta{margin-top:-12px}}
+

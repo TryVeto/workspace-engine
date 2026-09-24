@@ -1,0 +1,23 @@
+[
+  {
+    "id": "design:design-system",
+    "title": "Design system",
+    "group": "Design",
+    "body": "# Design system\n\nUse a quiet canvas, clear type, consistent spacing, subtle rules, and visible focus. Reuse rows, panes, dialogs, and commands across every surface.",
+    "mode": "design"
+  },
+  {
+    "id": "design:product-system",
+    "title": "Product system",
+    "group": "Product",
+    "body": "# Product system\n\nWork has an outcome and a next action. Decisions include options and a recommendation. Updates report evidence and what happens next.",
+    "mode": "design"
+  },
+  {
+    "id": "design:brand-system",
+    "title": "Brand system",
+    "group": "Brand",
+    "body": "# Brand system\n\nNorthstar Studio is a fictional demo. Write clearly, use specific verbs, and let the work carry the personality.",
+    "mode": "design"
+  }
+]

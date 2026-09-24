@@ -1,0 +1,219 @@
+{
+  "prompts": [
+    {
+      "id": "demo-1",
+      "title": "Review a product",
+      "subtitle": "",
+      "group": "core",
+      "key": "1",
+      "body": "Review the supplied product brief and prototype. Identify the three most consequential usability problems. For each, include a reproduction path, user impact, and a concrete correction. Distinguish observations from assumptions.",
+      "status": "pending",
+      "approval": null,
+      "useWhen": "",
+      "skipWhen": "",
+      "reviewQuestion": "",
+      "rationale": "",
+      "contrast": "",
+      "example": "",
+      "evaluation": "",
+      "notes": "",
+      "model": "",
+      "aliases": "",
+      "changeNote": "",
+      "promptVersion": 1,
+      "sources": [],
+      "defaultDepth": "20"
+    },
+    {
+      "id": "demo-2",
+      "title": "Plan a small release",
+      "subtitle": "",
+      "group": "core",
+      "key": "2",
+      "body": "Turn the supplied goal into a small, testable release. Define the intended outcome, included changes, acceptance checks, and unresolved decisions. Flag dependencies that can block delivery.",
+      "status": "pending",
+      "approval": null,
+      "useWhen": "",
+      "skipWhen": "",
+      "reviewQuestion": "",
+      "rationale": "",
+      "contrast": "",
+      "example": "",
+      "evaluation": "",
+      "notes": "",
+      "model": "",
+      "aliases": "",
+      "changeNote": "",
+      "promptVersion": 1,
+      "sources": [],
+      "defaultDepth": "20"
+    },
+    {
+      "id": "demo-3",
+      "title": "Return an update",
+      "subtitle": "",
+      "group": "core",
+      "key": "3",
+      "body": "Summarize the work completed, link the artifact, describe the checks actually run, and state the next action. If a decision is needed, give concrete options and a recommendation.",
+      "status": "pending",
+      "approval": null,
+      "useWhen": "",
+      "skipWhen": "",
+      "reviewQuestion": "",
+      "rationale": "",
+      "contrast": "",
+      "example": "",
+      "evaluation": "",
+      "notes": "",
+      "model": "",
+      "aliases": "",
+      "changeNote": "",
+      "promptVersion": 1,
+      "sources": [],
+      "defaultDepth": "20"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "prototype-review",
+      "title": "Review the Apollo prototype",
+      "group": "Apollo",
+      "owner": "Ada Lovelace",
+      "due": "",
+      "outcome": "Find the largest usability problems.",
+      "doneWhen": "Three findings have reproducible steps and a proposed correction.",
+      "context": "Use the product review skill and project brief.",
+      "status": "open"
+    }
+  ],
+  "workspace": {
+    "name": "Northstar Studio",
+    "boards": [
+      {
+        "id": "main",
+        "title": "Apollo planning",
+        "cards": [
+          {
+            "id": "review-card",
+            "ref": "prompts:demo-1",
+            "x": 80,
+            "y": 80,
+            "w": 360
+          },
+          {
+            "id": "task-card",
+            "ref": "tasks:prototype-review",
+            "x": 480,
+            "y": 80,
+            "w": 360
+          }
+        ]
+      }
+    ],
+    "notes": [
+      {
+        "id": "principle-clarity",
+        "kind": "principle",
+        "title": "Make the next step clear",
+        "body": "Prefer one obvious next action. Keep the evidence nearby.",
+        "updatedAt": "2026-01-01T00:00:00Z"
+      },
+      {
+        "id": "apollo-context",
+        "kind": "context",
+        "title": "Apollo product brief",
+        "body": "# Apollo product brief\n\nA shared planning space for a fictional design studio. Success means finding work, returning updates, and making decisions without losing context.",
+        "updatedAt": "2026-01-01T00:00:00Z"
+      },
+      {
+        "id": "demo-bookmark",
+        "kind": "bookmark",
+        "title": "Example reference",
+        "body": "A reserved example domain.",
+        "url": "https://example.com",
+        "updatedAt": "2026-01-01T00:00:00Z"
+      }
+    ],
+    "work": [
+      {
+        "id": "apollo",
+        "title": "Project Apollo",
+        "status": "active",
+        "outcome": "Make the next step clear for everyone at Northstar Studio.",
+        "artifact": "Projects/Apollo/project-brief.md",
+        "decision": "",
+        "nextAction": "Review the first prototype.",
+        "contextQuery": "",
+        "sources": [
+          "prompts:demo-1",
+          "tasks:prototype-review"
+        ],
+        "returns": [],
+        "handoffs": []
+      }
+    ]
+  },
+  "headquarters": [
+    {
+      "requestId": "demo-goal",
+      "actor": "Ada Lovelace",
+      "action": "company.edit",
+      "version": 0,
+      "record": {
+        "id": "goal",
+        "body": "Help every teammate find and finish the next useful piece of work.",
+        "source": "Fabricated demo brief",
+        "status": "current"
+      }
+    },
+    {
+      "requestId": "demo-strategy",
+      "actor": "Ada Lovelace",
+      "action": "company.edit",
+      "version": 0,
+      "record": {
+        "id": "strategy",
+        "body": "Start with a small planning loop: choose work, share progress, resolve decisions, and return evidence.",
+        "source": "Fabricated demo brief",
+        "status": "current"
+      }
+    },
+    {
+      "requestId": "demo-decision",
+      "actor": "Review agent",
+      "action": "decision.create",
+      "record": {
+        "id": "apollo-scope",
+        "title": "Choose the first prototype scope",
+        "body": "The team can test one complete flow this week.",
+        "recommendation": "Start with tasks and decisions to test the core planning loop.",
+        "options": [
+          "Tasks and decisions",
+          "Files and search"
+        ],
+        "workId": "apollo"
+      }
+    },
+    {
+      "requestId": "demo-update",
+      "actor": "Review agent",
+      "action": "update.create",
+      "record": {
+        "id": "apollo-update",
+        "title": "Prototype ready for review",
+        "body": "The first planning flow is ready for a keyboard review.",
+        "checks": "Demo record; no live project checks are claimed.",
+        "nextAction": "Review the Apollo prototype.",
+        "workId": "apollo",
+        "status": "returned"
+      }
+    }
+  ],
+  "culture": [
+    {
+      "id": "clear-updates",
+      "title": "Write useful updates",
+      "body": "State what changed, show the evidence, and name the next action. Ask for decisions with concrete options."
+    }
+  ]
+}

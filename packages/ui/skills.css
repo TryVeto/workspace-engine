@@ -1,0 +1,215 @@
+.skill-page-actions,.skill-example-actions,.skill-comparison{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.skill-link{color:inherit;text-underline-offset:3px}.skill-reader{max-width:980px}.skill-example-summary{border-top:1px solid var(--line);padding:24px 0 30px}.skill-example-summary h2{font-size:21px;margin:0 0 10px}.skill-example-summary p{color:var(--muted);margin-bottom:18px}.skill-example-actions .primary{padding:10px 16px}.skill-example-reader{max-width:1400px}.skill-example-reader>.description{margin-bottom:20px}.skill-comparison{margin:0 0 16px}.skill-comparison a{margin-left:auto;font-size:13px}.skill-example-frame{display:block;width:100%;height:650px;border:1px solid var(--line);border-radius:8px;background:white}.skill-record{margin:24px 0;padding:18px 0;border-top:1px solid var(--line);overflow-wrap:anywhere}.skill-record summary{cursor:pointer;font-weight:500;margin-bottom:12px}.skill-record p{line-height:1.7;white-space:pre-wrap}.skill-record h2{font-size:17px;margin-top:26px}.skill-files{display:flex;gap:12px;flex-wrap:wrap}.skill-files a{font-size:13px}.skill-example-callout{display:flex;align-items:center;gap:16px;border-block:1px solid var(--line);padding:16px 0;margin-bottom:28px;color:var(--muted);font-size:13px}.skill-example-callout>span{flex:1}.skill-example-callout button{white-space:nowrap;border:1px solid var(--line);color:var(--ink)}.skill-prose table{display:block;overflow:auto;max-width:100%;border-collapse:collapse;font-size:14px}.skill-prose td,.skill-prose th{padding:10px;border:1px solid var(--line);text-align:left}.skill-prose pre{overflow:auto;white-space:pre-wrap}.skill-prose li{margin:6px 0}.skill-reader .reader-actions{flex-wrap:wrap}.skill-reader>.muted{font-size:12px;margin-top:20px}@media(max-width:650px){.skill-page-actions{justify-content:flex-end}.skill-example-frame{height:620px}.skill-example-callout{align-items:flex-start;flex-direction:column}.skill-comparison a{margin-left:0}.skill-example-reader{padding:20px 16px 60px}}
+
+/* Skills: package navigation and document stay visible together. */
+#view:has(>.skill-explorer){overflow:hidden}
+body:has(.skill-explorer) #sidebar .side-heading,body:has(.skill-explorer) #side-items{display:none}
+body:has(.skill-explorer) .sidebar-bottom{margin-top:auto}
+.skill-explorer{display:grid;grid-template-columns:288px minmax(0,1fr);height:100%;min-height:0}
+.skill-tree-panel{display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--line);background:var(--bg)}
+.skill-tree-head{display:flex;align-items:center;justify-content:space-between;padding:22px 18px 14px}
+.skill-tree-head h1{font-size:20px;letter-spacing:-.025em;margin:0;font-weight:600}
+.skill-tree-head button{font-size:12px;color:var(--muted);padding:6px 8px}
+.skill-tree-search{width:calc(100% - 32px);margin:0 16px 15px;font-size:13px;padding:8px 10px;background:var(--side)}
+.skill-tree,.skill-tree-group{list-style:none;padding:0;margin:0}
+.skill-tree{overflow:auto;min-height:0;flex:1;padding:0 8px 24px}
+.skill-tree-row{margin:0;padding:0;outline:none!important}
+.skill-tree-line{display:flex;align-items:center;gap:7px;min-height:34px;padding:5px 8px;border-radius:5px;cursor:pointer;font-size:12px;color:var(--muted)}
+.skill-tree-row[aria-level="1"]>.skill-tree-line{margin-top:8px;font-size:13px;font-weight:500;color:var(--ink)}
+.skill-tree-row[aria-selected="true"]>.skill-tree-line{background:var(--hover);color:var(--ink);font-weight:500}
+.skill-tree-line:hover{background:var(--side);color:var(--ink)}
+.skill-tree-row:focus-visible>.skill-tree-line{outline:2px solid var(--ink);outline-offset:-2px;color:var(--ink)}
+.skill-tree-row[aria-disabled="true"]>.skill-tree-line{opacity:.5;cursor:not-allowed}
+.skill-tree-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.skill-glyph{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.skill-tree-chevron{width:12px;height:12px}
+.skill-tree-row[aria-expanded="true"]>.skill-tree-line>.skill-tree-chevron{transform:rotate(90deg)}
+.skill-tree-number{font-size:11px;width:15px;text-align:center;flex:none;font-variant-numeric:tabular-nums;color:var(--muted)}
+.skill-tree-group[hidden]{display:none}
+.skill-tree-help{font-size:10px;line-height:1.8;color:var(--muted);margin:0;padding:12px 18px;border-top:1px solid var(--line)}
+.skill-tree-help span{display:block}
+.skill-tree-empty{padding:18px 10px;color:var(--muted);font-size:13px}
+.skill-document-pane{min-width:0;min-height:0;overflow:auto;scrollbar-gutter:stable}
+.skill-document-pane:focus{outline:none}
+.skill-document-pane .reader{max-width:1100px;margin:0;padding:0 36px 70px}
+.skill-document-pane .reader-actions{position:sticky;top:0;margin:0 0 20px;padding:14px 0;min-height:61px;gap:6px;background:var(--bg)}
+.skill-document-pane .reader-actions button{font-size:12px}
+.skill-document-pane .reader-actions button:first-child{margin-right:0}
+.skill-file-path{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;min-width:40px;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin-right:auto}
+.skill-view-switch{display:flex;gap:1px;background:var(--side);padding:2px;border-radius:6px;margin-right:8px}
+.skill-view-switch button{border-radius:4px;padding:5px 9px;color:var(--muted)}
+.skill-view-switch button[aria-pressed="true"]{background:var(--bg);color:var(--ink);box-shadow:0 1px 3px #0000000b}
+.skill-document-pane .reader h1{font-size:28px;line-height:1.25;margin:24px 0 28px;letter-spacing:-.025em}
+.skill-document-pane .reader .description{font-size:15px;margin-bottom:24px}
+.skill-document-pane .skill-prose{max-width:76ch;font-size:15px;line-height:1.8}
+.skill-document-pane .skill-prose h2{font-size:19px;margin:30px 0 12px}
+.skill-document-pane .skill-prose h2:first-child{margin-top:0}
+.skill-document-pane .skill-prose h3{font-size:16px;margin:25px 0 10px}
+.skill-document-context{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);min-width:0}
+.skill-document-context>span{margin-right:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.skill-document-context button{font-size:11px;padding:4px 7px;white-space:nowrap}
+.skill-document-pane .skill-source{font:12px/1.8 ui-monospace,SFMono-Regular,Menlo,monospace;border-radius:0;background:none;padding:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.skill-document-pane .skill-source code{font:inherit}
+.skill-files-toggle{display:none}
+.skill-loading{padding:36px;color:var(--muted)}
+.skill-document-pane .skill-example-frame{height:620px}
+.skill-document-pane .skill-record{max-width:76ch}
+@media(max-width:1200px){.skill-explorer{grid-template-columns:250px minmax(0,1fr)}.skill-document-pane .reader{padding-inline:24px}.skill-tree-line{gap:5px;font-size:11px}.skill-tree-row[aria-level="1"]>.skill-tree-line{font-size:12px}}
+@media(max-width:850px){
+ .skill-explorer{grid-template-columns:minmax(0,1fr)}
+ .skill-tree-panel{display:none}
+ .skill-files-toggle{display:inline-flex!important}
+ .skill-explorer.show-files .skill-tree-panel{display:flex;border-right:0}
+ .skill-explorer.show-files .skill-document-pane{display:none}
+ .skill-tree-line{min-height:42px;font-size:13px}
+ .skill-tree-row[aria-level="1"]>.skill-tree-line{font-size:14px}
+ .skill-tree-head{padding:18px}
+ .skill-tree-head:after{content:none}
+ .skill-tree-help{font-size:11px}
+ .skill-document-pane .reader{padding:0 20px 60px}
+ .skill-document-pane .reader-actions{gap:4px;flex-wrap:wrap}
+ .skill-file-path{font-size:11px}
+ .skill-view-switch{margin-right:2px}
+ .skill-document-pane .reader-actions button{padding:6px}
+ .skill-document-pane .reader h1{font-size:25px}
+ .skill-document-context{flex-wrap:wrap}
+ .skill-document-context>span{flex-basis:100%}
+ .skill-document-pane .skill-prose{font-size:15px}
+ .skill-document-pane .skill-example-frame{height:580px}
+}
+
+/* Approved editable document: one toolbar, quiet status, direct block editing. */
+.skill-explorer{grid-template-columns:286px minmax(0,1fr)}
+.skill-tree-head{padding-top:24px}
+.skill-tree-search{background:transparent;border:1px solid var(--line);border-radius:6px;padding:9px 10px}
+.skill-tree-line{min-height:35px;font-size:12px}
+.skill-tree-row[aria-level="1"]>.skill-tree-line{font-size:13px}
+.skill-tree-row[aria-selected="true"]>.skill-tree-line{background:#ededeb}
+.skill-tree-help{font-size:11px}
+.skill-document-pane .skill-editable-reader{max-width:none;padding:0 0 72px}
+.skill-editable-reader .reader-actions{z-index:3;border-bottom:1px solid var(--line);padding:11px 27px;margin:0;min-height:56px;flex-wrap:nowrap;background:var(--bg)}
+.skill-save-state{font-size:12px;color:var(--muted);white-space:nowrap;flex:none;margin:0 12px}
+.skill-save-state.has-error{color:#9b3f2c}
+.skill-editable-reader .skill-more{font-size:16px;padding:5px 9px;letter-spacing:1px;flex:none}
+.skill-editable-reader .skill-file-path{font:12px/1.5 inherit;color:var(--muted)}
+.skill-file-menu{position:absolute;right:24px;top:48px;min-width:185px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:5px;box-shadow:0 8px 28px #00000012}
+.skill-file-menu[hidden]{display:none}
+.skill-file-menu button{display:block;width:100%;text-align:left;padding:9px 11px!important;white-space:nowrap}
+.skill-document-pane .skill-editable-body{max-width:840px;width:100%;padding:42px 48px 30px;margin:0 auto;font-size:15px;line-height:1.75;box-sizing:border-box}
+.skill-edit-block{position:relative;margin:0 0 14px;cursor:text;border-radius:3px}
+.skill-edit-block>p{margin:0}
+.skill-edit-block:has(h1){margin:0 0 35px}
+.skill-edit-block:has(h2){margin:30px 0 12px}
+.skill-edit-block:has(h3){margin:24px 0 10px}
+.skill-edit-block:focus-visible{outline:1px solid #aaa;outline-offset:6px}
+.skill-edit-block:before{content:'⋮';position:absolute;left:-24px;top:2px;color:#b1b1ac;font-size:17px;opacity:0;pointer-events:none}
+.skill-edit-block:hover:before,.skill-edit-block:focus-within:before{opacity:1}
+.skill-document-pane .skill-editable-body h1{font-size:30px;line-height:1.22;letter-spacing:-.025em;font-weight:600;margin:0}
+.skill-document-pane .skill-editable-body h2{font-size:19px;line-height:1.35;margin:0;font-weight:600}
+.skill-document-pane .skill-editable-body h3{font-size:16px;line-height:1.4;margin:0;font-weight:600}
+.skill-block-input{display:block;width:100%;min-height:0!important;resize:none;overflow:hidden;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding:0!important;margin:0!important;font:inherit!important;color:inherit;line-height:inherit;outline:none!important;box-sizing:border-box}
+.skill-block-input.heading-1{font-size:30px!important;font-weight:600!important;line-height:1.22!important;letter-spacing:-.025em}
+.skill-block-input.heading-2{font-size:19px!important;font-weight:600!important;line-height:1.35!important}
+.skill-block-input.heading-3{font-size:16px!important;font-weight:600!important;line-height:1.4!important}
+.skill-edit-block.is-editing{box-shadow:-2px 0 0 #d6d6d0}
+.skill-edit-block.is-editing:has(.heading-1){margin-bottom:35px}
+.skill-edit-block.is-editing:has(.heading-2){margin-top:30px;margin-bottom:12px}
+.skill-edit-block.is-editing:has(.heading-3){margin-top:24px;margin-bottom:10px}
+.skill-source-editor{display:block;width:100%;padding:0!important;background:transparent!important;border:0!important;resize:none;outline:none;font:13px/1.8 ui-monospace,SFMono-Regular,Menlo,monospace;overflow:hidden;min-height:450px}
+.skill-save-notice{margin:16px 28px 0;padding:12px 0;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;font-size:13px;flex-wrap:wrap}
+.skill-save-notice[hidden]{display:none}
+.skill-save-notice>span{flex:1;min-width:220px}
+.skill-save-notice button{border:1px solid var(--line);font-size:12px}
+.skill-inline-eval{margin:26px 0 32px}
+.skill-inline-eval .skill-example-frame{height:550px}
+.skill-inline-eval .skill-comparison{gap:6px;font-size:12px}
+.skill-inline-eval .skill-comparison button{font-size:12px;padding:8px 10px}
+.skill-dialog{width:min(900px,calc(100vw - 36px));max-height:85vh;padding:26px;border:1px solid var(--line);border-radius:10px;overflow:auto;color:var(--ink);background:var(--bg)}
+.skill-dialog::backdrop{background:#0004}
+.skill-dialog-head{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.skill-dialog h2{font-size:22px;margin:0 0 10px}
+.skill-dialog p{font-size:14px;line-height:1.6}
+.skill-dialog pre{white-space:pre-wrap;font:12px/1.7 ui-monospace,monospace;background:var(--side);padding:16px;max-height:360px;overflow:auto}
+.skill-compare-drafts{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.skill-compare-drafts section{min-width:0}
+.skill-history-version{border-top:1px solid var(--line);padding:15px 0}
+.skill-history-version summary{cursor:pointer;font-size:14px}
+@media(max-width:1200px){.skill-explorer{grid-template-columns:250px minmax(0,1fr)}.skill-document-pane .skill-editable-body{padding-inline:34px}}
+@media(max-width:850px){
+ .skill-explorer{grid-template-columns:minmax(0,1fr)}
+ .skill-editable-reader .reader-actions{padding:10px 14px;gap:5px}
+ .skill-document-pane .skill-editable-body{padding:30px 24px}
+ .skill-editable-reader .skill-file-path{font-size:11px}
+ .skill-save-state{font-size:11px;margin:0 4px}
+ .skill-editable-reader .skill-files-toggle{font-size:12px;padding:6px 4px}
+ .skill-document-pane .skill-editable-body h1,.skill-block-input.heading-1{font-size:26px!important}
+ .skill-tree-line{min-height:42px;font-size:13px}
+ .skill-compare-drafts{grid-template-columns:1fr}
+ .skill-inline-eval .skill-comparison a{margin-left:0;flex-basis:100%}
+ .skill-save-notice{margin-inline:24px}
+ .skill-edit-block:before{left:-17px}
+}
+
+/* Keep document controls functional inside the shared Workspace shell. */
+body.workspace-shell-v5 #view .skill-document-pane .skill-editable-reader{padding:0 0 72px;max-width:none}
+body.workspace-shell-v5 #view .skill-editable-reader .reader-actions{position:sticky;top:0;z-index:6;margin:0;padding:11px 27px;min-height:56px;flex-wrap:nowrap}
+body.workspace-shell-v5 #view .skill-editable-reader .skill-editable-body{max-width:840px;padding:42px 48px 30px;margin:0 auto;font-size:15px;line-height:1.75}
+body.workspace-shell-v5 #view .skill-editable-reader .skill-editable-body h1{font-size:30px}
+body.workspace-shell-v5 #view .skill-editable-reader .skill-editable-body h2{font-size:19px}
+body.workspace-shell-v5 #view .skill-file-menu{z-index:7}
+body.workspace-shell-v5 #view .skill-file-menu button{padding:9px 11px}
+body.workspace-shell-v5[data-workspace="skills"] #view .skill-tree-panel{display:flex}
+body.workspace-shell-v5 #view .skill-edit-block>p{margin:0}
+body.workspace-shell-v5 #view .skill-edit-block>ol,body.workspace-shell-v5 #view .skill-edit-block>ul{margin-block:0}
+@media(max-width:850px) and (min-width:701px){
+ body.workspace-shell-v5 #view .skill-explorer.show-files .skill-document-pane{display:block}
+}
+@media(max-width:700px){
+ body.workspace-shell-v5[data-workspace="skills"] #view .skill-tree-panel{display:none;z-index:7}
+ body.workspace-shell-v5.sidebar-open[data-workspace="skills"] #view .skill-tree-panel{display:flex}
+ body.workspace-shell-v5 #view .skill-explorer.show-files .skill-document-pane{display:block}
+ body.workspace-shell-v5 #view .skill-editable-reader .reader-actions{padding:8px 12px;gap:4px}
+ body.workspace-shell-v5 #view .skill-editable-reader .skill-editable-body{padding:30px 24px;font-size:15px}
+ body.workspace-shell-v5 #view .skill-editable-reader .skill-editable-body h1{font-size:26px}
+ body.workspace-shell-v5 #view .skill-files-toggle{display:inline-flex}
+}
+@media(prefers-color-scheme:dark){.skill-tree-row[aria-selected="true"]>.skill-tree-line{background:var(--hover)}}
+
+.skill-tree-count{margin-left:auto;color:var(--muted);font-size:10px;font-variant-numeric:tabular-nums;padding-right:4px}
+
+@media(max-width:700px){body.workspace-shell-v5 #view .skill-editable-reader .reader-actions{z-index:2}}
+
+
+.skill-inline-image{display:block;max-width:100%;margin:16px 0;cursor:zoom-in}
+.skill-inline-image img{display:block;max-width:100%;height:auto;max-height:600px;object-fit:contain;object-position:left;border-radius:3px}
+.skill-image-open{font-size:12px;white-space:nowrap;color:var(--ink);text-decoration:none;padding:6px 8px;border-radius:5px}
+.skill-image-open:hover{background:var(--hover)}
+#view .skill-document-pane .skill-image-reader{padding-bottom:0}
+.skill-image-meta{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:9px 27px;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted)}
+.skill-image-controls{display:flex;align-items:center;gap:4px}
+.skill-image-controls button,.skill-image-meta>button{font-size:12px;padding:5px 8px}
+.skill-image-controls button[aria-pressed="true"]{background:var(--hover);color:var(--ink)}
+.skill-image-scale{min-width:38px;text-align:center;font-variant-numeric:tabular-nums}
+.skill-image-stage{height:calc(100dvh - 157px);min-height:240px;overflow:auto;background:var(--side);overscroll-behavior:contain}
+.skill-image-canvas{display:grid;place-items:center;min-width:100%;min-height:100%;padding:24px}
+.skill-reference-image{display:block;max-width:none;max-height:none;object-fit:contain;background:repeating-conic-gradient(#eee 0% 25%,#fff 0% 50%) 50% / 16px 16px;box-shadow:0 1px 8px #0000000d;flex:none}
+.skill-image-stage>p{padding:28px;margin:0}
+@media(max-width:700px){
+ body.workspace-shell-v5 #view .skill-image-reader .reader-actions{flex-wrap:wrap}
+ .skill-image-reader .skill-file-path{flex-basis:60%;min-width:0}
+ .skill-image-meta{padding:8px 12px;gap:6px;flex-wrap:wrap}
+ .skill-image-meta>span{font-size:10px}
+ .skill-image-controls{gap:0}
+ .skill-image-controls button{min-height:36px}
+ .skill-image-stage{height:calc(100dvh - 192px)}
+}
+
+
+#view .skill-document-pane .skill-video-reader{padding-bottom:0}
+.skill-video-stage{min-height:calc(100dvh - 160px);padding:28px;display:flex;align-items:center;justify-content:center;background:var(--side)}
+.skill-reference-video{display:block;width:100%;max-width:1280px;max-height:calc(100dvh - 218px);background:#111;border-radius:3px}
+@media(max-width:700px){
+ body.workspace-shell-v5 #view .skill-video-reader .reader-actions{flex-wrap:wrap}
+ .skill-video-reader .skill-file-path{flex-basis:60%;min-width:0}
+ .skill-video-stage{min-height:calc(100dvh - 195px);padding:16px}
+ .skill-reference-video{max-height:calc(100dvh - 230px)}
+}

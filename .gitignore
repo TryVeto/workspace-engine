@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+.env*
+*.sqlite*
+*.db
+*.db-*
+config.local.json
+private/
+data/
+cache/
+dist/
+.DS_Store
