@@ -7,7 +7,7 @@ from http.cookies import SimpleCookie
 from .providers import Principal
 from .secrets import SecretStore
 
-OWNER_CAPABILITIES=frozenset(('workspace.read','workspace.write','prompts.read','prompts.write','tasks.read','tasks.write','decisions.read','decisions.request','decisions.resolve','company.write','updates.read','updates.write','skills.read','skills.write','skills.report','skills.review','insights.read','knowledge.read','knowledge.commit','filesystem.read','filesystem.write','filesystem.open','search.read','export.read','providers.inspect'))
+OWNER_CAPABILITIES=frozenset(('workspace.read','workspace.write','prompts.read','prompts.write','tasks.read','tasks.write','decisions.read','decisions.request','decisions.resolve','company.write','updates.read','updates.write','skills.read','skills.write','skills.report','skills.review','insights.read','knowledge.read','knowledge.commit','filesystem.read','filesystem.write','filesystem.open','search.read','export.read','providers.inspect','ai.read','ai.manage'))
 AGENT_CAPABILITIES=frozenset(('workspace.read','tasks.read','prompts.read','skills.read','decisions.read','decisions.request','updates.read','updates.write','search.read'))
 
 class RequestPolicy:
