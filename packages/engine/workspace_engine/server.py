@@ -22,7 +22,7 @@ def public_instance(config):
     url=config.get('assistant_url','')
     if url and urlsplit(url).scheme not in ('http','https'):
         raise ValueError('Assistant URL must use HTTP or HTTPS')
-    return dict(name=config.get('name','Workspace'),owner=config.get('owner','Workspace owner'),assistantUrl=url,version=__version__)
+    return dict(name=config.get('name','Workspace'),owner=config.get('owner','Workspace owner'),assistantUrl=url,aiConfigured=bool(config.get('ai_runtime_url')),version=__version__)
 
 def make_server(config, data, port=8988, app_factory=Workspace):
     instance=public_instance(config);app=app_factory(config,data)
@@ -100,6 +100,14 @@ def make_server(config, data, port=8988, app_factory=Workspace):
                     self.identity('workspace.read');return self.send(200,(ROOT/'docs/AGENTS.md').read_bytes(),'text/plain')
                 if path=='/api/providers':
                     self.identity('providers.inspect');return self.send(200,app.providers.describe())
+                if path=='/api/ai/status':
+                    if not app.ai:return self.send(200,{'configured':False})
+                    out=app.providers.call(self.identity('ai.read'),'ai','status')
+                    return self.send(200,{'configured':True,**out})
+                if path.startswith('/api/ai/login/'):
+                    if not app.ai:raise ValueError('AI runtime is not configured')
+                    login_id=path[len('/api/ai/login/'):]
+                    return self.send(200,app.providers.call(self.identity('ai.read'),'ai','login_status',login_id))
                 if path=='/api/search':
                     principal=self.identity('search.read')
                     # Search must not broaden access beyond the authorized catalog.
@@ -172,6 +180,12 @@ def make_server(config, data, port=8988, app_factory=Workspace):
                 elif path=='/api/recall':
                     principal.require('search.read');allowed={i['id']for i in app.catalog()['items']if {'tasks':'tasks.read','skills':'skills.read','prompts':'prompts.read','files':'filesystem.read'}.get(i['mode'],'workspace.read')in principal.capabilities}
                     results=app.providers.call(principal,'search','search',request.get('query',''),request.get('limit',12));out={'results':[dict(r,provider='Workspace',body=r['excerpt'])for r in results if r['id']in allowed],'warnings':[]}
+                elif path=='/api/ai':
+                    if not app.ai:raise ValueError('AI runtime is not configured')
+                    action=request.get('action')
+                    if action=='login':out=app.providers.call(principal,'ai','login')
+                    elif action=='logout':out=app.providers.call(principal,'ai','logout')
+                    else:raise ValueError('Unsupported AI action')
                 else:return self.send(404,{'error':'Action not available'})
                 app.invalidate();return self.send(200,out)
             except Exception as error:return self.error(error)

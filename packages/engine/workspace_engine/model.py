@@ -10,6 +10,7 @@ from .adapters.skill_examples import SkillExamples
 from .adapters.file_catalog import FileCatalog
 from .adapters.artifacts import ArtifactCatalog
 from .adapters.headquarters import Headquarters
+from .adapters.ai_runtime import LoopbackAIProvider
 from .providers import ProviderRegistry
 from .search import SearchIndex
 from .skill_runs import SkillRuns
@@ -79,6 +80,14 @@ class Workspace:
         self.providers.register('tasks', LocalTaskProvider(self), {'list': 'tasks.read', 'edit': 'tasks.write'})
         self.providers.register('search', self.search_index, {'search': 'search.read'})
         self.providers.register('skills', self.skill_editor, {'document': 'skills.read', 'history': 'skills.read', 'save': 'skills.write'})
+        self.ai = LoopbackAIProvider(config['ai_runtime_url']) if config.get('ai_runtime_url') else None
+        if self.ai:
+            self.providers.register('ai', self.ai, {
+                'status': 'ai.read',
+                'login': 'ai.manage',
+                'login_status': 'ai.read',
+                'logout': 'ai.manage',
+            })
 
     def connect(self):
         return connect(self.db)

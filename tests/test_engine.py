@@ -17,6 +17,7 @@ from workspace_engine.storage import private_directory
 from workspace_engine.providers import Principal,ProviderRegistry
 from workspace_engine.security import Sessions
 from workspace_engine.adapters.skill_editor import SkillConflict
+from workspace_engine.adapters.ai_runtime import LoopbackAIProvider
 
 class EngineTests(unittest.TestCase):
     def setUp(self):
@@ -91,9 +92,14 @@ class EngineTests(unittest.TestCase):
     def test_provider_capability_boundary(self):
         with self.assertRaises(PermissionError):self.app.providers.call(Principal('reader',frozenset({'tasks.read'})),'tasks','edit',{})
         with self.assertRaises(LookupError):self.app.providers.call(Principal('owner',frozenset({'tasks.write'})),'tasks','__dict__')
+    def test_ai_runtime_rejects_non_loopback_endpoints(self):
+        for endpoint in ('https://127.0.0.1:8798','http://example.test:8798',('http://'+'user:pass@'+'127.0.0.1:8798')):
+            with self.assertRaises(ValueError):LoopbackAIProvider(endpoint)
+
     def test_public_config_is_an_allowlist(self):
         public=public_instance({'name':'Demo','owner':'Ada','agents':{'private':{}},'artifact_store':{'password':'placeholder'}})
-        self.assertEqual(set(public),{'name','owner','assistantUrl','version'})
+        self.assertEqual(set(public),{'name','owner','assistantUrl','aiConfigured','version'})
+        self.assertFalse(public['aiConfigured'])
 
 class HTTPTests(unittest.TestCase):
     def setUp(self):
@@ -165,6 +171,20 @@ class HTTPTests(unittest.TestCase):
         self.assertEqual(self.request('POST','/api/skill-runs',event,self.browser())[0],200)
         self.assertEqual(self.request('GET','/api/skill-runs',headers=headers)[0],403)
         self.assertEqual(self.request('GET','/api/insights/skills',headers=self.browser())[1]['skills'][0]['reportedRuns'],1)
+    def test_ai_runtime_is_owner_managed(self):
+        class FakeAI:
+            def status(self):return {'ok':True,'account':{'signedIn':True,'type':'chatgpt'}}
+            def login(self):return {'loginId':'login-1','authUrl':'https://auth.example.test'}
+            def login_status(self,login_id):return {'loginId':login_id,'status':'completed'}
+            def logout(self):return {'ok':True}
+        app=self.server.workspace;app.ai=FakeAI()
+        app.providers.register('ai',app.ai,{'status':'ai.read','login':'ai.manage','login_status':'ai.read','logout':'ai.manage'})
+        code,status,_=self.request('GET','/api/ai/status',headers={'Cookie':self.cookie});self.assertEqual(code,200);self.assertTrue(status['account']['signedIn'])
+        code,login,_=self.request('POST','/api/ai',{'action':'login'},self.browser());self.assertEqual(code,200);self.assertEqual(login['loginId'],'login-1')
+        self.assertEqual(self.request('GET','/api/ai/login/login-1',headers={'Cookie':self.cookie})[1]['status'],'completed')
+        self.assertEqual(self.request('POST','/api/ai',{'action':'logout'},self.browser())[0],200)
+        self.assertEqual(self.request('POST','/api/ai',{'action':'login'},{'Authorization':'Bearer '+self.secret})[0],403)
+
     def test_session_expiry(self):
         sessions=Sessions(ttl=-1);key,csrf=sessions.issue({})
         with self.assertRaises(PermissionError):sessions.principal({'Cookie':'workspace-session='+key})

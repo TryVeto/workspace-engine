@@ -22,6 +22,8 @@ python3 server.py --config ../workspace-private/config/instance.json
 
 The engine knows schemas. Your instance owns configuration, source documents, skills, integrations, and identities. Runtime stores and credentials belong outside both repositories. See [architecture](docs/ARCHITECTURE.md), [security](docs/SECURITY.md), and [agent API](docs/AGENTS.md).
 
+An instance may opt into a local AI runtime with `"ai_runtime_url": "http://127.0.0.1:8798"`. Only loopback HTTP endpoints are accepted. When configured, Workspace settings exposes connection state and login controls through Workspace's same-origin session boundary; the AI runtime remains responsible for credentials and refresh.
+
 ## Keyboard
 
 Option/Alt + 1–9 switches primary sections. Unmodified numbers belong to the current surface: in Prompts, they copy a prompt. Command/Control K opens search; / focuses section search; arrows select; Enter opens; Escape returns. Typing fields and dialogs own their keys. ? opens the shortcut reference.
@@ -47,4 +49,4 @@ Authored knowledge can use a separate private Git checkout. Local saves and reco
 
 Apache License 2.0. See [LICENSE](LICENSE). Retained third-party notices are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-This release includes local storage and concrete files, tasks, skills, and search providers. Mail, calendar, AI, and remote synchronization are extension interfaces, not connected services. A private compatibility host can consume the shared engine while its remaining integrations migrate.
+This release includes local storage and concrete files, tasks, skills, and search providers. AI can be connected through an explicitly configured private loopback runtime; credentials never enter the public engine. Mail, calendar, and remote synchronization remain extension interfaces. A private compatibility host can consume the shared engine while its remaining integrations migrate.

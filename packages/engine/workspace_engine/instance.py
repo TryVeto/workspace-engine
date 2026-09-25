@@ -18,7 +18,7 @@ def load(path):
     if path.is_relative_to(REPOSITORY):raise ValueError('Private configuration belongs outside the engine checkout')
     raw=json.loads(path.read_text())
     if not isinstance(raw,dict):raise ValueError('Invalid instance configuration')
-    allowed={'name','owner','data_root','prompts','culture','tasks','culture_seed','skills_config','file_roots','references','artifact_store','assistant_url','agents','capabilities','host_aliases','session_ttl_seconds','skills_preview_port','knowledge_root'}
+    allowed={'name','owner','data_root','prompts','culture','tasks','culture_seed','skills_config','file_roots','references','artifact_store','assistant_url','agents','capabilities','host_aliases','session_ttl_seconds','skills_preview_port','knowledge_root','ai_runtime_url'}
     if set(raw)-allowed:raise ValueError('Unknown instance setting')
     def absolute(value):
         p=Path(value).expanduser();return str((path.parent/p).resolve()if not p.is_absolute()else p.resolve())

@@ -115,7 +115,23 @@ function download(name,text,type='application/json'){const a=el('a');a.href=URL.
 $('#switcher').onclick=()=>{const menu=$('#modes');menu.hidden=!menu.hidden;$('#switcher').setAttribute('aria-expanded',String(!menu.hidden));if(!menu.hidden)menu.querySelector('button')?.focus()};document.addEventListener('click',e=>{if(!e.target.closest('#switcher,#modes')){$('#modes').hidden=true;$('#switcher').setAttribute('aria-expanded','false')}});
 $('#search-trigger').onclick=()=>showPicker('open');$('#picker-search').oninput=drawPicker;$('#toggle-sidebar').onclick=()=>document.body.classList.toggle('sidebar-open');
 $('#new-board').onclick=()=>editDialog('New canvas',f=>field(f,'Name','title',''),async()=>{const title=$('#edit-form').elements.title.value.trim();if(!title)throw Error('Add a name.');const b={id:uid(),title,cards:[]};state.boards.push(b);boardId=b.id;pan={x:0,y:0,z:1};await persist();navigate('canvas')});
-$('#rename').onclick=()=>editDialog('Workspace settings',f=>{field(f,'Workspace name','name',state.name);f.append(el('p','callout','Edits save to their source with version history. Task edits stay local and do not sync to Asana.'))},async()=>{const name=$('#edit-form').elements.name.value.trim();if(!name)throw Error('Add a workspace name.');state.name=name;await persist();render()});
+function aiConnectionSettings(form){
+ if(!INSTANCE.aiConfigured)return;
+ const box=el('section','connection-settings'),head=el('div','connection-head'),copy=el('div');
+ copy.append(el('h3','','ChatGPT'),el('p','muted','Use your existing ChatGPT plan for agent work.'));
+ const status=el('p','connection-status','Checking connection…'),model=el('p','muted','');
+ const actions=el('div','connection-actions'),connect=button('Connect ChatGPT',startLogin,'primary'),logout=button('Sign out',signOut);logout.hidden=true;
+ head.append(copy);actions.append(connect,logout);box.append(head,status,model,actions);form.append(box);
+ async function load(){
+  try{const data=await api('/api/ai/status'),account=data.account||{},defaultModel=(data.models||[]).find(m=>m.isDefault);if(account.signedIn){status.textContent='Connected · '+(account.email||'ChatGPT')+(account.planType?' · '+account.planType[0].toUpperCase()+account.planType.slice(1):'');connect.textContent='Reconnect ChatGPT';logout.hidden=false}else{status.textContent='Not connected';connect.textContent='Connect ChatGPT';logout.hidden=true}model.textContent=defaultModel?'Default model · '+defaultModel.displayName:''}catch(e){status.textContent=e.message;model.textContent='';connect.disabled=false}
+ }
+ async function startLogin(){
+  connect.disabled=true;try{const attempt=await api('/api/ai',{action:'login'});window.open(attempt.authUrl,'_blank','noopener,noreferrer');status.textContent='Finish signing in with ChatGPT in the browser…';for(let i=0;i<180;i++){await new Promise(r=>setTimeout(r,1000));const state=await api('/api/ai/login/'+encodeURIComponent(attempt.loginId));if(state.status==='completed'){await load();toast('ChatGPT connected');return}if(state.status==='failed')throw Error(state.error||'ChatGPT sign-in failed')}throw Error('ChatGPT sign-in is still pending. Try Connect again when ready.')}catch(e){status.textContent=e.message}finally{connect.disabled=false}
+ }
+ async function signOut(){logout.disabled=true;try{await api('/api/ai',{action:'logout'});await load();toast('ChatGPT signed out')}catch(e){status.textContent=e.message}finally{logout.disabled=false}}
+ load();
+}
+$('#rename').onclick=()=>editDialog('Workspace settings',f=>{field(f,'Workspace name','name',state.name);aiConnectionSettings(f);f.append(el('p','callout','Edits save to their source with version history. Task edits stay local and do not sync to Asana.'))},async()=>{const name=$('#edit-form').elements.name.value.trim();if(!name)throw Error('Add a workspace name.');state.name=name;await persist();render()});
 $('#export').onclick=()=>download('workspace-export.json',JSON.stringify({workspace:state,headquarters:hq,unsavedDraft:failedDraft,catalog:items},(k,v)=>k==='token'?undefined:v,2));
 function closeEditor(){if(dirty&&!confirm('Discard unsaved changes?'))return;$('#editor').close();restoreFocus()}
 $('#discard').onclick=closeEditor;$('#editor .close').onclick=closeEditor;$('#editor').addEventListener('cancel',e=>{e.preventDefault();closeEditor()});$('#picker .close').onclick=()=>$('#picker').close();$('#edit-form').onsubmit=e=>e.preventDefault();
