@@ -25,7 +25,8 @@ class KnowledgeLibrary:
     def state(self):
         return json.loads(self.state_file.read_text()) if self.state_file.exists() else {"files":{},"conflicts":[]}
     def git(self,*args):
-        return subprocess.run(["git","-C",str(self.root),*args],capture_output=True,text=True,timeout=30)
+        env={k:v for k,v in os.environ.items() if not k.startswith("GIT_")}
+        return subprocess.run(["git","-C",str(self.root),*args],capture_output=True,text=True,timeout=30,env=env)
     def path(self,relative):
         relative=Path(relative)
         if relative.is_absolute() or any(x.startswith(".") or x in ("..","") for x in relative.parts):

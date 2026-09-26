@@ -85,7 +85,7 @@ def make_server(config, data, port=8988, app_factory=Workspace):
                     self.identity('insights.read');return self.send(200,app.skill_runs.listing(q.get('skillId',[None])[0],q.get('runId',[None])[0]))
                 if path=='/api/catalog':
                     principal=sessions.principal(self.headers)
-                    result=app.catalog();requirements={'prompts':'prompts.read','tasks':'tasks.read','skills':'skills.read','files':'filesystem.read'}
+                    result=app.catalog();requirements={'prompts':'prompts.read','tasks':'tasks.read','skills':'skills.read','files':'filesystem.read','web':'web.read'}
                     result={**result,'items':[item for item in result['items'] if requirements.get(item['mode'],'workspace.read')in principal.capabilities]}
                     if 'skills.read'not in principal.capabilities:result['skillExamples']={}
                     return self.send(200,result)
@@ -100,6 +100,13 @@ def make_server(config, data, port=8988, app_factory=Workspace):
                     self.identity('workspace.read');return self.send(200,(ROOT/'docs/AGENTS.md').read_bytes(),'text/plain')
                 if path=='/api/providers':
                     self.identity('providers.inspect');return self.send(200,app.providers.describe())
+                if path=='/api/web':
+                    return self.send(200,app.providers.call(self.identity('web.read'),'web','listing'))
+                if path.startswith('/api/web-asset/'):
+                    self.identity('web.read');raw,mime=app.web.asset(path[len('/api/web-asset/'):])
+                    return self.send(200,raw,mime,{'Content-Security-Policy':"default-src 'none'; sandbox; frame-ancestors 'none'"})
+                if path.startswith('/api/web/'):
+                    return self.send(200,app.providers.call(self.identity('web.read'),'web','get',path[len('/api/web/'):]))
                 if path=='/api/ai/status':
                     if not app.ai:return self.send(200,{'configured':False})
                     out=app.providers.call(self.identity('ai.read'),'ai','status')
@@ -111,7 +118,7 @@ def make_server(config, data, port=8988, app_factory=Workspace):
                 if path=='/api/search':
                     principal=self.identity('search.read')
                     # Search must not broaden access beyond the authorized catalog.
-                    allowed={i['id']for i in app.catalog()['items']if {'tasks':'tasks.read','skills':'skills.read','prompts':'prompts.read','files':'filesystem.read'}.get(i['mode'],'workspace.read')in principal.capabilities}
+                    allowed={i['id']for i in app.catalog()['items']if {'tasks':'tasks.read','skills':'skills.read','prompts':'prompts.read','files':'filesystem.read','web':'web.read'}.get(i['mode'],'workspace.read')in principal.capabilities}
                     return self.send(200,{'results':[r for r in app.providers.call(principal,'search','search',q.get('q',[''])[0])if r['id']in allowed]})
                 if path=='/api/prompts':self.identity('prompts.read');return self.send(200,{'prompts':app.prompts.state()['prompts']})
                 if path.startswith('/api/prompts/'):
@@ -178,8 +185,11 @@ def make_server(config, data, port=8988, app_factory=Workspace):
                     action=request.get('action');cap='filesystem.open'if action in('open','reveal')else'filesystem.read'if action in('preview','scan')else'filesystem.write'
                     principal.require(cap);out=(app.files if path=='/api/files'else app.artifacts).mutate(request)
                 elif path=='/api/recall':
-                    principal.require('search.read');allowed={i['id']for i in app.catalog()['items']if {'tasks':'tasks.read','skills':'skills.read','prompts':'prompts.read','files':'filesystem.read'}.get(i['mode'],'workspace.read')in principal.capabilities}
+                    principal.require('search.read');allowed={i['id']for i in app.catalog()['items']if {'tasks':'tasks.read','skills':'skills.read','prompts':'prompts.read','files':'filesystem.read','web':'web.read'}.get(i['mode'],'workspace.read')in principal.capabilities}
                     results=app.providers.call(principal,'search','search',request.get('query',''),request.get('limit',12));out={'results':[dict(r,provider='Workspace',body=r['excerpt'])for r in results if r['id']in allowed],'warnings':[]}
+                elif path=='/api/web':
+                    if request.get('action')!='capture':raise ValueError('Unsupported web action')
+                    out=app.providers.call(principal,'web','capture',request,principal.name)
                 elif path=='/api/ai':
                     if not app.ai:raise ValueError('AI runtime is not configured')
                     action=request.get('action')

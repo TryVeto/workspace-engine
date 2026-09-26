@@ -31,5 +31,7 @@
   "/commands.js": "packages/commands/commands.js",
   "/favicon.svg": "packages/ui/favicon.svg",
   "/skill-insights.js": "apps/web/skill-insights.js",
-  "/skill-insights.css": "packages/ui/skill-insights.css"
+  "/skill-insights.css": "packages/ui/skill-insights.css",
+  "/web.js": "apps/web/web.js",
+  "/web.css": "packages/ui/web.css"
 }

@@ -1,4 +1,4 @@
-import hashlib,json,shutil,subprocess,sys,tempfile,unittest
+import hashlib,json,os,shutil,subprocess,sys,tempfile,unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"packages/engine"))
 from workspace_engine.adapters.skills import Catalog
@@ -91,8 +91,9 @@ class KnowledgeTests(unittest.TestCase):
  def setUp(self):
   self.temp=tempfile.TemporaryDirectory();self.root=Path(self.temp.name)
   self.repo=self.root/"knowledge";self.repo.mkdir()
+  env={k:v for k,v in os.environ.items() if not k.startswith('GIT_')}
   for args in [("init","-b","main"),("config","user.name","Demo"),("config","user.email","demo@example.com")]:
-   subprocess.run(["git","-C",str(self.repo),*args],capture_output=True,check=True)
+   subprocess.run(["git","-C",str(self.repo),*args],capture_output=True,check=True,env=env)
   self.library=KnowledgeLibrary(self.repo,self.root/"state")
  def tearDown(self):self.temp.cleanup()
  def test_semantic_checkpoint_and_truthful_status(self):

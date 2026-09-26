@@ -1,0 +1,9 @@
+{
+  "name": "workspace-desktop-web",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Optional task-page shell for Workspace.",
+  "main": "main.js",
+  "scripts": {"start": "electron .", "check": "node --check main.js && node --check preload.js"},
+  "devDependencies": {"electron": "44.4.5"}
+}

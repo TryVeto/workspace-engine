@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import re
 import subprocess
 from pathlib import Path
@@ -19,7 +20,8 @@ URL=re.compile(r'https?://([A-Za-z0-9][A-Za-z0-9.-]*)(?=[:/\s"\'])')
 PUBLIC_DOMAINS={'example.com','example.org','example.test','localhost','127.0.0.1','www.w3.org','skill.invalid','github.com','docs.github.com','cheatsheetseries.owasp.org','json-schema.org','spdx.org','apache.org','www.apache.org'}
 
 def git(root,*args,check=True):
-    return subprocess.run(['git','-C',str(root),*args],capture_output=True,check=check).stdout
+    env={k:v for k,v in os.environ.items() if not k.startswith('GIT_')}
+    return subprocess.run(['git','-C',str(root),*args],capture_output=True,check=check,env=env).stdout
 
 def inspect(name,raw,policy=None):
     findings=[];p=Path(name);lower=name.lower()
@@ -84,7 +86,9 @@ def scan(root,history=False,staged=False,policy=None):
                 key=(mode,oid,name)
                 if key in entries:continue
                 entries[key]=True;check(name,git(root,'cat-file','blob',oid),mode)
-    return sorted(set(findings))
+    unique=set(findings)
+    allowed={(item.get('name'),item.get('reason')) for item in (policy or {}).get('allowFindings',[]) if isinstance(item,dict)}
+    return sorted(unique-allowed)
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--history',action='store_true');p.add_argument('--staged',action='store_true');p.add_argument('--policy');p.add_argument('--root',type=Path,default=ROOT);a=p.parse_args()
