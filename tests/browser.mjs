@@ -17,8 +17,11 @@ try{
  page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(()=>{window.copied=[];Object.defineProperty(navigator,'clipboard',{value:{writeText:async text=>window.copied.push(text)}})});
  await page.goto('http://127.0.0.1:'+port);await page.waitForFunction(()=>typeof catalogReady!=='undefined'&&catalogReady);
- const surfaces=['home','decisions','work','tasks','updates','company','design','prompts','skills','files','bookmarks','canvas','contexts','culture','principles','insights'];
+ const surfaces=['home','decisions','work','tasks','updates','company','design','prompts','skills','files','web','bookmarks','canvas','contexts','culture','principles','insights'];
  for(const mode of surfaces){await page.evaluate(m=>navigate(m),mode);await page.waitForTimeout(80);assert.ok((await page.locator('#view').innerText()).trim(),mode+' is empty')}
+ await page.evaluate(async()=>{await api('/api/web',{action:'capture',requestId:'browser-web-1',record:{title:'Fabricated web source',url:'https://example.test/source',selection:'Selected evidence',text:'Fabricated page evidence for browser verification.',browser:'Fixture',capturedAt:'2026-01-01T00:00:00Z'}});await refresh();navigate('web')});
+ await page.getByText('Fabricated web source',{exact:true}).waitFor();await page.getByText('Fabricated web source',{exact:true}).click();await page.getByText('Selected evidence',{exact:true}).waitFor();
+ await page.evaluate(()=>navigate('prompts'));
  await page.evaluate(()=>navigate('prompts'));await page.locator('.item-row').first().focus();await page.keyboard.press('1');await page.waitForFunction(()=>window.copied.length===1);await page.waitForFunction(()=>document.querySelector('#toast').textContent.startsWith('Copied'));
  assert.equal(await page.evaluate(()=>mode),'prompts');assert.equal(await page.evaluate(()=>window.copied.length),1);
  assert.equal(await page.evaluate(()=>window.copied[0]),await page.evaluate(()=>items.find(i=>i.id==='prompts:demo-1').body));

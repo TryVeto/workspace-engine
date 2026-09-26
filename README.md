@@ -22,6 +22,8 @@ python3 server.py --config ../workspace-private/config/instance.json
 
 The engine knows schemas. Your instance owns configuration, source documents, skills, integrations, and identities. Runtime stores and credentials belong outside both repositories. See [architecture](docs/ARCHITECTURE.md), [security](docs/SECURITY.md), and [agent API](docs/AGENTS.md).
 
+Web pages can be first-class work evidence without making Workspace a general browser. The optional extension captures a page only after explicit user action; the optional Electron shell embeds persistent task pages beside the work. See [web-native work](docs/WEB.md).
+
 An instance may opt into a local AI runtime with `"ai_runtime_url": "http://127.0.0.1:8798"`. Only loopback HTTP endpoints are accepted. When configured, Workspace settings exposes connection state and login controls through Workspace's same-origin session boundary; the AI runtime remains responsible for credentials and refresh.
 
 ## Keyboard

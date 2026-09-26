@@ -11,6 +11,7 @@ from .adapters.file_catalog import FileCatalog
 from .adapters.artifacts import ArtifactCatalog
 from .adapters.headquarters import Headquarters
 from .adapters.ai_runtime import LoopbackAIProvider
+from .web_pages import WebPages
 from .providers import ProviderRegistry
 from .search import SearchIndex
 from .skill_runs import SkillRuns
@@ -75,11 +76,13 @@ class Workspace:
         self.files = FileCatalog(self.data / 'files', config.get('file_roots', []))
         self.artifacts = ArtifactCatalog(self.data / 'artifacts', config.get('artifact_store', {'provider': 'local'}), self.files)
         self.search_index = SearchIndex(self.data / 'search-index.sqlite3')
+        self.web = WebPages(self.data / 'web')
         self.providers = ProviderRegistry()
         self.providers.register('files', self.files, {'inventory': 'filesystem.read', 'collections': 'filesystem.read', 'status': 'filesystem.read'})
         self.providers.register('tasks', LocalTaskProvider(self), {'list': 'tasks.read', 'edit': 'tasks.write'})
         self.providers.register('search', self.search_index, {'search': 'search.read'})
         self.providers.register('skills', self.skill_editor, {'document': 'skills.read', 'history': 'skills.read', 'save': 'skills.write'})
+        self.providers.register('web', self.web, {'listing':'web.read','get':'web.read','capture':'web.capture'})
         self.ai = LoopbackAIProvider(config['ai_runtime_url']) if config.get('ai_runtime_url') else None
         if self.ai:
             self.providers.register('ai', self.ai, {
@@ -127,6 +130,9 @@ class Workspace:
                 result.append(dict(id='files:' + collection['id'], mode='files', title=collection['title'], description=collection['summary'], group=collection.get('project', ''), body='\n'.join((f['path'] for f in collection['files'])), readonly=True))
             for artifact in self.artifacts.listing()['artifacts']:
                 result.append(dict(id='files:artifact-' + artifact['id'], mode='files', title=artifact['title'], description=artifact['logical_path'], group=artifact.get('project') or 'Files', body=artifact['logical_path'], readonly=True))
+            for page in self.web.listing()['pages']:
+                body='\n\n'.join(x for x in (page.get('selection',''),page.get('body','')) if x)[:20000]
+                result.append(dict(id=page['ref'],mode='web',title=page['title'],description=page['description'],group=page['host'],body=body,url=page['url'],capturedAt=page['capturedAt'],browser=page['browser'],screenshot=bool(page.get('screenshot')),readonly=True))
             references = self.config.get('references')
             if references:
                 for reference in json.loads(Path(references).read_text()):

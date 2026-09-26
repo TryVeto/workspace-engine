@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Workspace Web",
+  "version": "0.1.0",
+  "description": "Send the page you are working on to Workspace.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu0U1/zFuKQ2MCC7qpCitMqFRudMCuKddgDAHoVQWNfMvFTUE2/WAJbnfyoQoHODDu6VoBwol7ZkjauTuRmM49lGINovDe+U8akAA+YfETAlwuAI7r6KybxYa5vSBkLMuodgULgXr83jL8YTSuYatWCQzMtTDoYY8sofBjiSFNoQE7GgDSf08LBrhjmQBGWIDqdZuDYjmVs/FmmNccqdb6Vmx5Kfc6xRewPzd9g//dJGYEgy2ubHPxDifN4+056pgbgmTVjxaTJYFG5ukgFaLp1FSfT18JgxX2zALdbP7V8s4k48FQA1EMzXwQDkIBndj83H8Uz3kf0dCqSi/ady6iQIDAQAB",
+  "action": {
+    "default_title": "Send page to Workspace",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "nativeMessaging",
+    "tabs",
+    "storage"
+  ],
+  "commands": {
+    "send-current-page": {
+      "suggested_key": {
+        "default": "Alt+Shift+V",
+        "mac": "Alt+Shift+V"
+      },
+      "description": "Send current page to Workspace"
+    }
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'"
+  }
+}
